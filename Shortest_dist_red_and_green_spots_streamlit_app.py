@@ -5,17 +5,25 @@ from scipy.spatial import distance
 import streamlit as st
 
 st.set_page_config(
-    page_title="Vesicle Distance Calculator", layout="centered"
+    page_title="Shortest Distance Calculator", layout="centered"
 )
 
-st.title("Vesicle Distance Calculator")
+st.title("Shortest 3D Distance Calculator")
 
 # Instruction Message Block
 st.info(
-    "**Instructions:** This app calculates the shortest 3D Euclidean distances between green and red spots.\n\n"
-    'Upload your green and red cell centroid coordinate CSV files exported from Imaris. Ensure the filenames contain **"green"**, **"red"**, and **"position"** respectively.'
+    "This app takes the Imaris-generated ...Position.csv files for two sets of spots (red and green) and "
+    "calculates the shortest 3D Euclidean distances between them for each cell. \n\n"
+    "Cells are identified by their unique values in columns **CellID** and **Original Image Name**.\n\n"
+    '- Ensure that one of the csv files contains the words - **"green"**, and **"position"**.\n' 
+    '- The other csv file should contain the words - **"red"**, and **"position"**.\n'
+    '- Each csv file should have the following columns: **Position X, Position Y, Position Z, CellID, Original Image Name**.\n'
+    '- The app will compute the shortest distances from green to red and from red to green, and provide downloadable CSV files with the results.',
+    title="Instructions:"
 )
 
+with st.bottom:
+    st.caption("Created by: Ved Sharma | Bio-Imaging Resource Center, The Rockefeller University (2026)")
 
 def clean_dataframe(df):
     # Extract first 3 columns (X, Y, Z coordinates)
@@ -76,7 +84,7 @@ def calculate_nearest_distances(source_df, target_df, dist_col_name):
 
 # File Uploader component
 uploaded_files = st.file_uploader(
-    "Upload CSV Files (Select both Green and Red files)",
+    "Upload ...Position.csv Files (Select both green and red)",
     type=["csv"],
     accept_multiple_files=True,
 )
